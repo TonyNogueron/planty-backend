@@ -1,0 +1,25 @@
+{
+  "name": "planty",
+  "version": "1.0.0",
+  "description": "Planty service.",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "planty"
+  ],
+  "author": "TonyNogueron, ArmandoArV",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ArmandoArV/BackEndPlanty/issues"
+  },
+  "homepage": "https://github.com/ArmandoArV/BackEndPlanty#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.20"
+  }
+}
