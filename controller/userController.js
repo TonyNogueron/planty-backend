@@ -31,17 +31,39 @@ const getUsers = (req, res) => {
 const loginUser = (req, res) => {
   const body = req.body;
   const sql = "SELECT * FROM User WHERE username = ? AND psswd = SHA2(?,224)";
+  let idUser;
+  let message;
+
   connection.query(sql, [body.username, body.psswd], (err, result, fields) => {
     if (err) {
       res.status(500).send(err);
     } else {
       if (result.length > 0) {
-        res.status(200).send("User logged in successfully");
+        idUser = result[0].idUser;
+        message = "User logged in successfully";
+        res.status(200).json({ idUser, message });
       } else {
-        res.status(404).send("User not found");
+        message = "User not found or incorrect password";
+        res.status(404).json({ message });
       }
     }
   });
 };
 
-module.exports = { registerUser, getUsers, loginUser };
+const validateUser = (req, res) => {
+  const body = req.body;
+  const sql = "SELECT * FROM User WHERE username = ?";
+  connection.query(sql, [body.username], (err, result, fields) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      if (result.length > 0) {
+        res.status(200).send("User already exists");
+      } else {
+        res.status(202).send("User available");
+      }
+    }
+  });
+};
+
+module.exports = { registerUser, getUsers, loginUser, validateUser };
