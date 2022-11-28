@@ -1,8 +1,13 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const measurementController = require('../controller/measurementController');
+const measurementController = require("../controller/measurementController");
 
-router.post('/measurement', measurementController.insertMeasurement);
-router.get('/measurement', measurementController.getMeasurements);
+router.post("/measurement", measurementController.insertMeasurement);
+router.get("/measurement", measurementController.getMeasurements);
+router.get("/measurement", measurementController.getMeasurementsByPlant);
+router.get(
+  "/measurement/last",
+  measurementController.getLastMeasurementByPlant
+);
 
 module.exports = router;

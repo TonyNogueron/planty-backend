@@ -3,7 +3,7 @@ const connection = require("../config/mysqlConfig");
 const insertMeasurement = (req, res) => {
   const body = req.body;
   const sql =
-    "INSERT INTO Measurement (collectionDate, airHumidity, temperature, light, earthHumidity, waterLevel, idPlant) VALUES (?, ?, ?, ?, ?, ?, ?);";
+    "INSERT INTO Measurement (collectionDate, airHumidity, temperature, light, earthHumidity, idPlant) VALUES (?, ?, ?, ?, ?, ?);";
   connection.query(
     sql,
     [
@@ -12,7 +12,6 @@ const insertMeasurement = (req, res) => {
       body.temperature,
       body.light,
       body.earthHumidity,
-      body.waterLevel,
       body.idPlant,
     ],
     (err, result, fields) => {
@@ -36,4 +35,34 @@ const getMeasurements = (req, res) => {
   });
 };
 
-module.exports = { insertMeasurement, getMeasurements };
+const getMeasurementsByPlant = (req, res) => {
+  const id = req.query.id;
+  const sql = "SELECT * FROM Measurement WHERE idPlant = ?";
+  connection.query(sql, [id], (err, result, fields) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.status(200).json(result);
+    }
+  });
+};
+
+const getLastMeasurementByPlant = (req, res) => {
+  const id = req.query.id;
+  const sql =
+    "SELECT * FROM Measurement WHERE idPlant = ? ORDER BY idMeasurement DESC LIMIT 1";
+  connection.query(sql, [id], (err, result, fields) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.status(200).json(result);
+    }
+  });
+};
+
+module.exports = {
+  insertMeasurement,
+  getMeasurements,
+  getMeasurementsByPlant,
+  getLastMeasurementByPlant,
+};
