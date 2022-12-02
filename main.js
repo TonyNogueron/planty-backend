@@ -6,6 +6,7 @@ const express = require("express");
 const user = require("./routes/user");
 const measurement = require("./routes/measurement");
 const plant = require("./routes/plant");
+const bomba = require("./routes/bomba");
 
 const cors = require("cors");
 const app = express();
@@ -17,6 +18,7 @@ app.use(cors());
 app.use("/", user);
 app.use("/", measurement);
 app.use("/", plant);
+app.use("/", bomba);
 
 app.listen(port, () =>
   console.log(`Servidor iniciado en http://localhost:${port}`)

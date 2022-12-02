@@ -4,7 +4,7 @@ const measurementController = require("../controller/measurementController");
 
 router.post("/measurement", measurementController.insertMeasurement);
 router.get("/measurement", measurementController.getMeasurements);
-router.get("/measurement", measurementController.getMeasurementsByPlant);
+router.get("/measurements", measurementController.getMeasurementsByPlant);
 router.get(
   "/measurement/last",
   measurementController.getLastMeasurementByPlant
