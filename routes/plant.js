@@ -14,5 +14,12 @@ router.post(
 );
 router.get("/plant", plantController.getPlants);
 router.get("/plantById", plantController.getPlantsByUser);
+router.delete("/plant", plantController.deletePlantById);
+router.get("/plantByPlantId", plantController.getPlantById);
+router.post(
+  "/updatePlant",
+  upload.single("plantIconImage"),
+  plantController.updatePlant
+);
 
 module.exports = router;

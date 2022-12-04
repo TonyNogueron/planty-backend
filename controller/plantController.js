@@ -70,4 +70,76 @@ const getPlantsByUser = (req, res) => {
   });
 };
 
-module.exports = { registerPlant, getPlants, getPlantsByUser };
+const getPlantById = (req, res) => {
+  const id = req.query.id;
+  const sql = "SELECT * FROM Plant WHERE idPlant = ?";
+  connection.query(sql, [id], (err, result, fields) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.status(200).json(result);
+    }
+  });
+};
+
+const deletePlantById = (req, res) => {
+  const id = req.query.id;
+  const sql = "DELETE FROM Plant WHERE idPlant = ?";
+  connection.query(sql, [id], (err, result, fields) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.status(200).send("Plant deleted successfully");
+    }
+  });
+};
+
+const updatePlant = async (req, res) => {
+  const body = req.body;
+  const file = req.file;
+
+  if (file) {
+    const fileBuffer = await sharp(file.buffer)
+      .resize({ height: 600, width: 600, fit: "cover" })
+      .toBuffer();
+
+    const imageBase64 = fileBuffer.toString("base64");
+
+    const sql =
+      "UPDATE Plant SET plantName = ?, plantType = ?, plantImage = ? WHERE idPlant = ?";
+    connection.query(
+      sql,
+      [body.plantName, body.plantType, imageBase64, body.idPlant],
+      (err, result, fields) => {
+        if (err) {
+          res.send(err);
+        } else {
+          res.status(200).json(result);
+        }
+      }
+    );
+  } else {
+    const sql =
+      "UPDATE Plant SET plantName = ?, plantType = ? WHERE idPlant = ?";
+    connection.query(
+      sql,
+      [body.plantName, body.plantType, body.idPlant],
+      (err, result, fields) => {
+        if (err) {
+          res.send(err);
+        } else {
+          res.status(200).json(result);
+        }
+      }
+    );
+  }
+};
+
+module.exports = {
+  registerPlant,
+  getPlants,
+  getPlantsByUser,
+  deletePlantById,
+  getPlantById,
+  updatePlant,
+};
